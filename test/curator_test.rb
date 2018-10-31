@@ -4,6 +4,7 @@ require 'pry'
 require './lib/curator'
 require './lib/photograph'
 require './lib/artist'
+require 'csv'
 
 
 class CuratorTest < Minitest::Test
@@ -132,6 +133,12 @@ class CuratorTest < Minitest::Test
     expected = [@curator.photographs[1], @curator.photographs[2], @curator.photographs[3]]
     assert_equal expected, actual
     assert_equal [], @curator.photographs_taken_by_artists_from("Argentina")
+  end
+
+  def test_it_parses_csv_data
+    expected = [@photo_1, @photo_2, @photo_3, @photo_4]
+    assert_equal expected, @curator.csv_parser("./data/photographs.csv")
+
   end
 
 
