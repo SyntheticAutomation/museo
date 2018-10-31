@@ -71,7 +71,7 @@ class Curator
     @photographs.select {|photo| desired_artist_ids.include?(photo.artist_id)}
   end
 
-  def csv_parser(csv_path)
+  def load_photographs(csv_path)
     file = CSV.read(csv_path, headers: true, header_converters: :symbol)
     file.map {|row| row.to_h}
   end

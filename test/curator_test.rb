@@ -137,7 +137,7 @@ class CuratorTest < Minitest::Test
 
   def test_it_parses_csv_data
     expected = [@photo_1, @photo_2, @photo_3, @photo_4]
-    assert_equal expected, @curator.csv_parser("./data/photographs.csv")
+    assert_equal expected, @curator.load_photographs("./data/photographs.csv")
 
   end
 
