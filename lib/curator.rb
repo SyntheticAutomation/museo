@@ -56,9 +56,7 @@ class Curator
 
   def ids_to_artists
     well_stocked_artists.map do |artist_id|
-      @artists.find do |artist|
-        artist_id == artist.id
-      end
+      @artists.find {|artist| artist_id == artist.id}
     end
   end
 
