@@ -131,6 +131,7 @@ class CuratorTest < Minitest::Test
     actual = @curator.photographs_taken_by_artists_from("United States")
     expected = [@curator.photographs[1], @curator.photographs[2], @curator.photographs[3]]
     assert_equal expected, actual
+    assert_equal [], @curator.photographs_taken_by_artists_from("Argentina")
   end
 
 
