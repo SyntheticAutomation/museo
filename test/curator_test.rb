@@ -62,6 +62,11 @@ class CuratorTest < Minitest::Test
     assert_instance_of Curator, @curator
   end
 
+  def test_artists_and_photographs_start_as_empty_array
+    assert_equal [], @curator.artists
+    assert_equal [], @curator.photographs
+  end
+
   def test_it_has_photos
     @curator.add_photograph(@photo_1)
     @curator.add_photograph(@photo_2)
@@ -98,6 +103,34 @@ class CuratorTest < Minitest::Test
     diane_arbus = @curator.find_artist_by_id("3")
     expected = [@curator.photographs[2], @curator.photographs[3]]
     assert_equal expected, @curator.find_photographs_by_artist(diane_arbus)
+  end
+
+  def test_it_can_give_artists_with_multiple_photos
+    @curator.add_photograph(@photo_1)
+    @curator.add_photograph(@photo_2)
+    @curator.add_photograph(@photo_3)
+    @curator.add_photograph(@photo_4)
+    @curator.add_artist(@artist_1)
+    @curator.add_artist(@artist_2)
+    @curator.add_artist(@artist_3)
+    diane_arbus = @curator.find_artist_by_id("3")
+    actual = @curator.artists_with_multiple_photographs
+    assert_equal [diane_arbus], actual
+    assert 1, @curator.artists_with_multiple_photographs.length
+    assert diane_arbus == @curator.artists_with_multiple_photographs.first
+  end
+
+  def test_it_can_give_photos_taken_by_artists_from_specific_country
+    @curator.add_photograph(@photo_1)
+    @curator.add_photograph(@photo_2)
+    @curator.add_photograph(@photo_3)
+    @curator.add_photograph(@photo_4)
+    @curator.add_artist(@artist_1)
+    @curator.add_artist(@artist_2)
+    @curator.add_artist(@artist_3)
+    actual = @curator.photographs_taken_by_artists_from("United States")
+    expected = [@curator.photographs[1], @curator.photographs[2], @curator.photographs[3]]
+    assert_equal expected, actual
   end
 
 

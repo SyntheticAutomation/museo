@@ -25,6 +25,12 @@ class Curator
     end
   end
 
+  def find_artists_by_country(country)
+    @artists.select do |artist|
+      artist.country == country
+    end
+  end
+
   def find_photograph_by_id(id)
     @photographs.find do |photo|
       photo.id == id
@@ -37,6 +43,35 @@ class Curator
     end
   end
 
+  def well_stocked_artists
+    grouped_photos = @photographs.group_by {|photo| photo.artist_id}
+    collection = {}
+    grouped_photos.each {|key, value| collection[key] = value.count}
+    desired_pair = collection.select do |key, value|
+      if value > 1
+        key
+      end
+    end.keys
+  end
+
+  def ids_to_artists
+    well_stocked_artists.map do |artist_id|
+      @artists.find do |artist|
+        artist_id == artist.id
+      end
+    end
+  end
+
+  def artists_with_multiple_photographs
+    well_stocked_artists
+    ids_to_artists
+  end
+
+  def photographs_taken_by_artists_from(country)
+    artists_from_desired_country = find_artists_by_country(country)
+    desired_artist_ids = artists_from_desired_country.map {|artist| artist.id }
+    @photographs.select {|photo| desired_artist_ids.include?(photo.artist_id)}
+  end
 
 
 end
